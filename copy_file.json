@@ -1,0 +1,83 @@
+{
+  "serverinfo": {
+    "speicherort": "PRIVAT",
+    "prefix": "#",
+    "language": "en"
+  },
+  "tt": {
+    "aktivierung": false,
+    "info_channel_id": null,
+    "time_next_phase": null,
+    "aktuelle_phase": 0,
+    "repeat_vote": 0,
+    "time_votes": null,
+    "anmeldung": 0,
+    "distance_s_t": 86400000,
+    "message_ids": {},
+    "channels": {},
+    "locations": [],
+    "vehicels": [],
+    "messages": {},
+    "gruppen": {}
+  },
+  "moderation": {
+    "roles_admin": [],
+    "roles_mod": [],
+    "mute_role_id": null,
+    "activ": []
+  },
+  "memberjoin": {
+    "infos": {
+      "aktiviert": false,
+      "channel": null,
+      "color": null,
+      "thumpnail": true
+    },
+    "message": null,
+    "roles": [],
+    "member": {
+      "aktiviert": false,
+      "title": "Welcome",
+      "description": null,
+      "color": "#0059ff",
+      "thumbnail": true
+    }
+  },
+  "log": {},
+  "leveling": {
+    "channels": {},
+    "infos": {
+      "state": "PRIVATE"
+    },
+    "roles": {}
+  },
+  "konten": {},
+  "giveaway": {
+    "infos": {},
+    "nachricht": {},
+    "teilnehmer": {}
+  },
+  "automod": {
+    "ignoredchannels": [],
+    "ignoredroles": [],
+    "infos": {
+      "aktiviert": false
+    },
+    "links": [],
+    "wörter": []
+  },
+  "system": {
+    "globalbann_level": 0,
+    "systembann": false,
+    "leave_question_time": 0,
+    "globalbann_count": 0
+  },
+  "level": {
+    "lb": {
+
+    }
+  },
+  "user": {
+
+  }
+}
