@@ -1,10 +1,10 @@
-const { MessageEmbed, Client, Permissions } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const fs = require("fs");
 
 module.exports = {
     name: 'ban',
     description: 'Dieser Command bannt einen Member!',
-    execute(client, message, args){
+    execute(client, message, args) {
         if (!message.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return client.commands.get("permission_error").execute(client, message);
 
         var member;
@@ -17,37 +17,36 @@ module.exports = {
                 member = args[0].split("<@").join("").split(">").join("");
                 member = client.users.cache.find(user => user.id === member);
                 if (member === undefined) {
-                    return message.reply("Bite gebe einen gültigen User an!");
+                    return message.reply("Please enter a valid user!");
                 }
             }
 
-            catch(error) {
+            catch (error) {
                 //Sonst ist Member = Message Author
-                return message.reply("Es ist ein Fehler aufgetreten. Bitte probiere es erneut und gebe einen gültigen User an. Wenn das Problem weiterhin besteht kontaktiere uns bitte via `#bug [bug]` und gebe den Bug an.");
+                return message.reply("An error has occurred. Please try again and enter a valid user. If the problem persists, please contact us via `#bug [bug]` and specify the bug.");
             }
         }
 
 
-        if(member){
+        if (member) {
             args.splice(args[0], 1);
-            const memberTarget = message.guild.members.cache.get(member.id);
             try {
                 const exampleEmbed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle(`You were banned from the ${message.guild.name.toString()}`)
+                    .setTitle(`You were banned from the ${message.guild.name.toString()} Guild`)
                     .setDescription(`By ${message.author.username}#${message.author.discriminator}`)
                     .addFields({name: 'Reason:', value: `${args.join(" ")}`})
                     .setTimestamp()
                 member.send({ embeds: [exampleEmbed] });
-            }catch (err) {
-                message.reply("Der User konnte nicht über den Bann informiert werden.")
+            } catch (err) {
+                message.reply("The user could not be informed about the ban.");
             }
             message.guild.members.ban(member, {reason: args.join(" ")});
             const exampleEmbed = new MessageEmbed()
                 .setColor('RED')
                 .setTitle('Moderation')
-                .setDescription(`${member.username}#${member.discriminator} wurde gebannt.`)
-                .addFields({name: 'Grund:', value: `${args.join(" ")}`})
+                .setDescription(`${member.username}#${member.discriminator} was banned by <@${message.member.id}>.`)
+                .addFields({name: 'Reason:', value: `${args.join(" ")}`})
                 .setTimestamp()
             
             message.reply({ embeds: [exampleEmbed] });
@@ -58,16 +57,16 @@ module.exports = {
                 }
 
                 var json_data = JSON.parse(data);
-                json_data.user[message.member.id.toString()].moderation.ban ++;
-                json_data.user[member.id.toString()].vergehen.ban ++;
+                json_data.user[message.member.id.toString()].moderation.ban ++; //Dem Moderator wird ein Bann hinzugefügt
+                json_data.user[member.id.toString()].vergehen.ban ++; //Dem User wird ein Bann hinzugefügt
                 fs.writeFile(`Server/${message.member.guild.id.toString()}.json`, JSON.stringify(json_data), () => {});
             });
-        } else{
+        } else {
             const exampleEmbed = new MessageEmbed()
                 .setColor('RED')
                 .setTitle('Moderation')
-                .setDescription("Der Command wurde nicht richtig ausgeführt. Bitte achte darauf, dass alle Angaben vorhanden sind.")
-                .addFields({name: 'Command:', value: "`#ban @member/id grund`"})
+                .setDescription("The command was not executed correctly. Please make sure that all information is available.")
+                .addFields({name: 'Command:', value: "`#ban @member/id Reason`"})
                 .setTimestamp()
             
             message.channel.send({ embeds: [exampleEmbed] });
