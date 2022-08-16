@@ -4,12 +4,12 @@ const fs = require("fs");
 module.exports = {
     name: "kick",
     description: "Dieser Command kickt einen Member!",
-    execute(message, args){
+    execute(client, message, args){
 
-        if (!message.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return client.commands.get("permission_error").execute(client, message);
+        if (!message.member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) return client.commands.get("permission_error").execute(client, message);
 
         var member;
-        if (args[0] === []) {
+        if (args.length === 0) {
             return message.reply("Please enter a user!");
         }
         else {
@@ -17,6 +17,7 @@ module.exports = {
                 //Versucht die User ID zu bekommen und zu User umzuwandeln
                 member = args[0].split("<@").join("").split(">").join("");
                 member = client.users.cache.find(user => user.id === member);
+
                 if (member === undefined) {
                     return message.reply("Please enter a valid user!");
                 }
@@ -24,6 +25,7 @@ module.exports = {
 
             catch (error) {
                 //Sonst ist Member = Message Author
+                console.error(error);
                 return message.reply("An error has occurred. Please try again and enter a valid user. If the problem persists, please contact us via `#bug [bug]` and specify the bug.");
             }
         }
@@ -31,6 +33,10 @@ module.exports = {
 
         if (member) {
             args.splice(args[0], 1);
+            console.log(args);
+            if (args.length === 0) {
+                args = "No reason was given.".split(" ");
+            }
             try {
                 const exampleEmbed = new MessageEmbed()
                     .setColor('RED')

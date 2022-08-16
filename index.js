@@ -235,7 +235,7 @@ client.on('messageCreate', async message => {
 
 
     if (kick.includes(command) && command != null) {
-        client.commands.get('kick').execute(message, args);
+        client.commands.get('kick').execute(client, message, args);
     } if (ban.includes(command) && command != null) {
         client.commands.get('ban').execute(client, message, args);
     } if (purge.includes(command) && command != null) {

@@ -8,7 +8,7 @@ module.exports = {
         if (!message.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return client.commands.get("permission_error").execute(client, message);
 
         var member;
-        if (args[0] === []) {
+        if (args.length === 0) {
             return message.reply("Bitte gebe einen User an!");
         }
          else {
@@ -16,6 +16,7 @@ module.exports = {
                 //Versucht die User ID zu bekommen und zu User umzuwandeln
                 member = args[0].split("<@").join("").split(">").join("");
                 member = client.users.cache.find(user => user.id === member);
+
                 if (member === undefined) {
                     return message.reply("Please enter a valid user!");
                 }
@@ -30,6 +31,10 @@ module.exports = {
 
         if (member) {
             args.splice(args[0], 1);
+            console.log(args)
+            if (args.length === 0) {
+                return message.reply("A reason must be given!")
+            }
             try {
                 const exampleEmbed = new MessageEmbed()
                     .setColor('RED')
