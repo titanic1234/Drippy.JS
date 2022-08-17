@@ -23,6 +23,23 @@ Leveling
 > - XP hinzufügen
 > - XP entfernen
 
+Wettkampfsystem
+> - Comming soon...
+
+Moderation
+> - Bannen
+> - Kicken
+> - Muten (Comming soon...)
+> - Warnen (Comming soon...)
+> - Userinfo (Comming soon...)
+> - Dashboard (Teils veröffentlich; Erreichbar über #set)
+
+Weiteres
+> - Bug Report
+> - Quiz
+> - Serverinfo
+> - Ping (Comming soon...)
+
 
 
 ![drippy_logo_2](https://user-images.githubusercontent.com/93482292/185225922-9682aca9-6c66-469e-a269-269a3a426ed4.png)
