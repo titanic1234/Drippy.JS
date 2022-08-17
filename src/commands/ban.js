@@ -9,7 +9,7 @@ module.exports = {
 
         var member;
         if (args.length === 0) {
-            return message.reply("Bitte gebe einen User an!");
+            return message.reply("Please enter a user!");
         }
          else {
             try {
@@ -53,7 +53,7 @@ module.exports = {
                 .setDescription(`${member.username}#${member.discriminator} was banned by <@${message.member.id}>.`)
                 .addFields({name: 'Reason:', value: `${args.join(" ")}`})
                 .setTimestamp()
-            
+
             message.reply({ embeds: [exampleEmbed] });
 
             fs.readFile(`Server/${message.member.guild.id.toString()}.json`, "utf8", function (err,data) {
@@ -73,7 +73,7 @@ module.exports = {
                 .setDescription("The command was not executed correctly. Please make sure that all information is available.")
                 .addFields({name: 'Command:', value: "`#ban @member/id Reason`"})
                 .setTimestamp()
-            
+
             message.channel.send({ embeds: [exampleEmbed] });
         }
     }

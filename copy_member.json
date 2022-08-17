@@ -16,6 +16,7 @@
   },
   "vergehen": {
     "warn": 0,
+    "warns": [],
     "mute": 0,
     "kick": 0,
     "ban": 0

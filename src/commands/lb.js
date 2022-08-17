@@ -54,7 +54,7 @@ module.exports = {
 
                     var lp = i.split(" : ");
                     if (lp[0] === w) {
-                        var user = client.users.cache.find(user => user.id === lp[1]);
+                        var user = message.guild.members.cache.find(user => user.id === lp[1]);
                         if (user === undefined || user === null) continue;
 
 

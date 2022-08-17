@@ -25,7 +25,6 @@ module.exports = {
 
             catch (error) {
                 //Sonst ist Member = Message Author
-                console.error(error);
                 return message.reply("An error has occurred. Please try again and enter a valid user. If the problem persists, please contact us via `#bug [bug]` and specify the bug.");
             }
         }
