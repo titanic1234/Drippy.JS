@@ -10,20 +10,13 @@ for (const file of jsonFiles) {
             console.log(err);
         }
 
+
         var json_data = JSON.parse(data);
-        console.log(json_data.memberjoin);
-        json_data.memberjoin.infos.aktiviert = false;
-        console.log(json_data.memberjoin);
-        json_data.memberjoin.member = {
-            "member": {
-                "aktiviert": false,
-                "title": "Welcome",
-                "description": null,
-                "color": "#0059ff",
-                "thumbnail": true
-            }
-        };
-        console.log(json_data.memberjoin);
+
+
+        Object.keys(json_data["user"]).forEach(member => {
+            json_data.user[member.toString()].vergehen.warns = [];
+        })
 
         fs.writeFile(`Server/${file}`, JSON.stringify(json_data), () => {});
     });

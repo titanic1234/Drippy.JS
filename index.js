@@ -140,6 +140,8 @@ const addxp = ["ADD-XP", "add-xp"];
 
 const removexp = ["REMOVE-XP", "remove-xp"];
 
+const warn = ["Warn", "warn", "WARN"]
+
 //Command Listen Ende
 
 
@@ -211,6 +213,7 @@ client.on("modalSubmit", async (modal) => {
 client.on('messageCreate', async message => {
 
     if (message.author.bot) return;
+    //console.log(message.guild.members);
 
     await client.events.get("guildCreate").execute(client, message.member.guild, false);
     await sleep(200);
@@ -238,6 +241,8 @@ client.on('messageCreate', async message => {
         client.commands.get('kick').execute(client, message, args);
     } if (ban.includes(command) && command != null) {
         client.commands.get('ban').execute(client, message, args);
+    } if (warn.includes(command) && command != null) {
+        client.commands.get('warn').execute(client, message, args);
     } if (purge.includes(command) && command != null) {
         client.commands.get('clear').execute(message, args);
     } if (set.includes(command) && command != null){

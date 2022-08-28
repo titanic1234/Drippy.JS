@@ -1,5 +1,6 @@
 const { MessageEmbed, Permissions} = require("discord.js");
 const fs = require("fs");
+const sleep = require("sleep-promise");
 
 module.exports = {
     name: "kick",
@@ -16,7 +17,7 @@ module.exports = {
             try {
                 //Versucht die User ID zu bekommen und zu User umzuwandeln
                 member = args[0].split("<@").join("").split(">").join("");
-                member = client.users.cache.find(user => user.id === member);
+                member = message.guild.members.cache.find(user => user.id === member);
 
                 if (member === undefined) {
                     return message.reply("Please enter a valid user!");
@@ -31,7 +32,7 @@ module.exports = {
 
 
         if (member) {
-            args.splice(args[0], 1);
+            args.splice(args[1], 1);
             console.log(args);
             if (args.length === 0) {
                 args = "No reason was given.".split(" ");
@@ -47,7 +48,7 @@ module.exports = {
             } catch (err) {
                 message.reply("The user could not be informed about the kick.");
             }
-            message.guild.members.kick(member);
+            //message.guild.members.kick(member);
             const exampleEmbed = new MessageEmbed()
                 .setColor('RED')
                 .setTitle('Moderation')
@@ -57,10 +58,13 @@ module.exports = {
 
             message.reply({ embeds: [exampleEmbed] });
 
-            fs.readFile(`Server/${message.member.guild.id.toString()}.json`, "utf8", function (err,data) {
+            fs.readFile(`Server/${message.member.guild.id.toString()}.json`, "utf8", async function (err,data) {
                 if (err) {
                     console.log(err);
                 }
+
+                await client.events.get("guildMemberAdd").execute(client, member, false, message.guild.id.toString());
+                await sleep(200);
 
                 var json_data = JSON.parse(data);
                 json_data.user[message.member.id.toString()].moderation.kick ++; //Dem Moderator wird ein Bann hinzugefügt
