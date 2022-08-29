@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "ai": "node aibot.js"
+    "ai": "node aibot.js",
+    "deployCommands": "node deploy-commands.js"
   },
   "author": "Drippy-Team",
   "license": "ISC",

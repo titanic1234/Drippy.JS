@@ -76,7 +76,7 @@ module.exports = {
                         .setDescription(`By ${message.author.username}#${message.author.discriminator}`)
                         .addFields({name: 'Reason:', value: `${args.join(" ")}`})
                         .setTimestamp()
-                    member.send({embeds: [exampleEmbed]});
+                    await member.send({embeds: [exampleEmbed]});
                 } catch (err) {
                     message.reply("The user could not be informed about the warn.");
                 }

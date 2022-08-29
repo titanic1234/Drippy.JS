@@ -1,15 +1,15 @@
-const {MessageEmbed} = require("discord.js");
+const {MessageEmbed, Permissions} = require("discord.js");
+const {SlashCommandBuilder} = require("@discordjs/builders")
 module.exports = {
-    name: 'ping',
-    description: 'Gibt Latenz zurück',
-    async execute(client, message, args){
+    data: new SlashCommandBuilder().setName("ping").setDescription("pong!"),
+    async execute(client, interaction){
 
         const pingEmbed = new MessageEmbed()
-            .setColor("#fd5833")
-            .setTitle("Pong!")
-            .setDescription(`${client.latency * 1000} ms`)
+            .setColor("#2d7991")
+            .setTitle("Ping!")
+            .setDescription(`Pong!`)
 
-        await message.reply({embeds: [pingEmbed]});
+        await interaction.reply({embeds: [pingEmbed], ephemeral: true});
 
     }
 }

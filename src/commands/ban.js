@@ -5,7 +5,7 @@ const sleep = require("sleep-promise");
 module.exports = {
     name: 'ban',
     description: 'Dieser Command bannt einen Member!',
-    execute(client, message, args) {
+    async execute(client, message, args) {
         if (!message.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return client.commands.get("permission_error").execute(client, message);
 
         var member;
@@ -43,7 +43,7 @@ module.exports = {
                     .setDescription(`By ${message.author.username}#${message.author.discriminator}`)
                     .addFields({name: 'Reason:', value: `${args.join(" ")}`})
                     .setTimestamp()
-                member.send({ embeds: [exampleEmbed] });
+                await member.send({ embeds: [exampleEmbed] });
             } catch (err) {
                 message.reply("The user could not be informed about the ban.");
             }
