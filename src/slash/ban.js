@@ -58,11 +58,9 @@ module.exports = {
         } catch (err) {
             interaction.channel.send({content: "An error has occurred. Please try again. If the error still occurs, do not hesitate to contact us.", ephemeral: true});
 
-            console.log("Ein Error ist bei /kick aufgetreten:\n");
+            console.log("Ein Error ist bei /ban aufgetreten:\n");
             console.error(err);
             console.log("\n\n---------------------------------------\n\n");
-
-
         }
     }
 }

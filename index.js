@@ -32,14 +32,14 @@ const prefix = process.env.PREFIX;
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.sets = new Discord.Collection();
-//client.slash = new Discord.Collection();
+client.slash = new Discord.Collection();
 
 
 
 const commandFiles = fs.readdirSync('./src/commands/').filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync('./src/events/').filter(file => file.endsWith('.js'));
 const setFiles = fs.readdirSync('./src/sets/').filter(file => file.endsWith('.js'));
-//const slashFiles = fs.readdirSync('./src/slash/').filter(file => file.endsWith('.js'));
+const slashFiles = fs.readdirSync('./src/slash/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
     const command = require(`./src/commands/${file}`);
     client.commands.set(command.name, command);
@@ -59,10 +59,10 @@ for(const file of setFiles){
 }
 
 
-//for(const file of slashFiles){
-//    const command = require(`./src/slash/${file}`);
-//    client.commands.set(command.data.name, command);
-//}
+for(const file of slashFiles){
+    const command = require(`./src/slash/${file}`);
+    client.slash.set(command.data.name, command);
+}
 
 
 client.once('ready', async () => {
@@ -147,8 +147,30 @@ const warn = ["Warn", "warn", "WARN"]
 
 
 client.on('interactionCreate', async (interaction) => {
+
+    if (interaction.isCommand()) {
+
+        let command = client.slash.get(interaction.commandName);
+
+        if (command) {
+            await command.execute(client, interaction);
+        }
+
+
+        //if (interaction.commandName === "ping") {
+        //    await client.slash.get(interaction.commandName).execute(interaction);
+        //}
+
+        //if (interaction.commandName === "kick") {
+        //    await client.slash.get(interaction.commandName).execute(client, interaction);
+        //}
+    }
+
+
     if (interaction.isButton()) {
         client.events.get("interactionCreateButton").execute(client, interaction);
+
+
         if(interaction.customId === 'primary'){
             const filter = m => m.author.id === interaction.user.id
             const collector = interaction.channel.createMessageCollector({
@@ -226,10 +248,10 @@ client.on('messageCreate', async message => {
         return;
     }
 
-    client.commands.get("leveling").execute(client, message);
+    await client.commands.get("leveling").execute(client, message);
     await sleep(200);
 
-    client.commands.get("ranking").execute(client, message);
+    await client.commands.get("ranking").execute(client, message);
     await sleep(200);
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -238,52 +260,52 @@ client.on('messageCreate', async message => {
 
 
     if (kick.includes(command) && command != null) {
-        client.commands.get('kick').execute(client, message, args);
+        await client.commands.get('kick').execute(client, message, args);
     } if (ban.includes(command) && command != null) {
-        client.commands.get('ban').execute(client, message, args);
+        await client.commands.get('ban').execute(client, message, args);
     } if (warn.includes(command) && command != null) {
-        client.commands.get('warn').execute(client, message, args);
+        await client.commands.get('warn').execute(client, message, args);
     } if (purge.includes(command) && command != null) {
-        client.commands.get('clear').execute(message, args);
+        await client.commands.get('clear').execute(message, args);
     } if (set.includes(command) && command != null){
-        client.commands.get(`set`).execute(client, message);
+        await client.commands.get(`set`).execute(client, message);
     } if(quiz.includes(command) && command != null){
-        client.commands.get(`quiz`).execute(message, args);
+        await client.commands.get(`quiz`).execute(message, args);
     } if (ping.includes(command) && command != null) {
-        client.commands.get("ping").execute(client, message, args);
+        await client.commands.get("ping").execute(client, message, args);
     } if (help.includes(command) && command != null) {
-        client.commands.get("help").execute(message, null);
+        await client.commands.get("help").execute(message, null);
     } if (info.includes(command) && command != null) {
-        client.commands.get("info").execute(client, message);
+        await client.commands.get("info").execute(client, message);
     } if (serverinfo.includes(command) && command != null) {
-        client.commands.get("sv").execute(client, message, args);
+        await client.commands.get("sv").execute(client, message, args);
     } if (boost.includes(command) && command != null) {
-        client.commands.get("boost").execute(client, message, args);
+        await client.commands.get("boost").execute(client, message, args);
     } if (xp.includes(command) && command != null) {
-        client.commands.get("rank").execute(client, message, args);
+        await client.commands.get("rank").execute(client, message, args);
     } if (bug.includes(command) && command != null) {
-        client.commands.get("bug").execute(client, message, args);
+        await client.commands.get("bug").execute(client, message, args);
     } if (lb.includes(command) && command != null) {
-        client.commands.get("lb").execute(client, message);
+        await client.commands.get("lb").execute(client, message);
     } if (command === "admin" && command != null) {
         console.log("Admin");
         await client.events.get("guildCreate").execute(client, message.member.guild, false);
         await sleep(500);
         await client.events.get("guildMemberAdd").execute(client, message.member, true);
     } if (bugans.includes(command) && command != null) {
-        client.commands.get("bugans").execute(client, message, args);
+        await client.commands.get("bugans").execute(client, message, args);
     } if (alert.includes(command) && command != null) {
         var server = args[0];
         args.shift()
-        client.commands.get("alert").execute(client, message, server, args);
+        await client.commands.get("alert").execute(client, message, server, args);
     } if (globalbann.includes(command) && command != null) {
         var user = args[0];
         args.shift()
-        client.commands.get("globalbann").execute(client, message, user, args);
+        await client.commands.get("globalbann").execute(client, message, user, args);
     } if (addxp.includes(command) && command != null) {
-        client.commands.get("add-xp").execute(client, message, args);
+        await client.commands.get("add-xp").execute(client, message, args);
     } if (removexp.includes(command) && command != null) {
-        client.commands.get("remove-xp").execute(client, message, args);
+        await client.commands.get("remove-xp").execute(client, message, args);
     }
 
 });
