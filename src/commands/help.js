@@ -25,8 +25,8 @@ module.exports = {
                     .setColor("#3497da")
                     .setTitle("Help")
                     .setDescription("Here you can see the categories into which the help commands are divided." +
-                        ` Just do ${prefix}role [category] to get the roles displayed (categories are separated by hyphens if necessary).` +
-                        " If you still have questions, you are welcome to come to our support server. :) https://discord.gg/M8mqCr4vzf")
+                        ` Just do ${prefix}help [category] to get the commands displayed (categories are separated by hyphens if necessary).` +
+                        " If you still have questions, you are welcome to come to our support server. :) https://discord.gg/g6aGe6xymk")
                     .addField("Kategorien:", "-Moderation(only Teammember) \n-Infos \n-Fun \n-Level", false) // -Member Leave -Member Join Bann/Kick/Mute/Warn
                     .setTimestamp();
 

@@ -1,55 +1,38 @@
-const {MessageEmbed, Permissions, Client, GuildMember} = require('discord.js');
+const { MessageEmbed } = require("discord.js");
+const fs = require("fs");
 const sleep = require("sleep-promise");
-fs = require('fs');
+const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
-    name: "rank",
-    description: "XP Abfrage",
-    async execute (client, message, member) {
+    data: new SlashCommandBuilder().setName("rank").setDescription("See leveling info")//.setDefaultMemberPermissions(Permissions.FLAGS.KICK_MEMBERS | Permissions.FLAGS.BAN_MEMBERS)
+        .addUserOption(option => option.setName("member").setDescription("Specify the member")),
+    async execute(client, interaction) {
         try {
+            var member = interaction.options.getUser("member");
+
+            if (!member) member = interaction.user;
 
 
-            //Überprüft Member
-            if (member === []) {
-                member = message.author;
-            } else {
-                try {
-                    //Versucht die User ID zu bekommen und zu User umzuwandeln
-                    member[0] = member[0].split("<@").join("").split(">").join("");
-                    member = client.users.cache.find(user => user.id === member[0]);
-                    if (member === undefined) {
-                        member = message.author;
-                    }
-                    var test = member.id;
-                }
-
-                catch(error) {
-                    //Sonst ist Member = Message Author
-                    member = message.author;
-                }
-            }
-
-
-            var guildid = message.guild.id
+            var guildid = interaction.guild.id;
 
             //Führt guildMemberAdd aus
             await client.events.get("guildMemberAdd").execute(client, member, false, guildid);
             await sleep(200);
 
 
-            fs.readFile(`Server/${message.member.guild.id.toString()}.json`, "utf8", async function (err,data) {
+            fs.readFile(`Server/${interaction.member.guild.id.toString()}.json`, "utf8", async function (err,data) {
                 if (err) {
                     console.log(err);
                 }
 
-                //Hohlt sich alle Infos fürs Ranking
+                //Holt sich alle Informationen fürs Ranking
 
                 var userid = member.id.toString()
 
                 const json_data = JSON.parse(data);
                 const xp = json_data.user[userid].leveling.xp;
                 const level = json_data.user[userid].leveling.levels;
-                const xp_level = json_data.user[userid].leveling.xp_level;
+                //const xp_level = json_data.user[userid].leveling.xp_level;
                 const message_count = json_data.user[userid].leveling.message_count;
                 const rank = json_data.user[userid].leveling.rank;
 
@@ -70,13 +53,13 @@ module.exports = {
                         {name: "Your current rank: ", value: `${rank}`}
                     )
 
-                await message.reply({embeds: [levelEmbed]});
+                await interaction.reply({embeds: [levelEmbed], ephemeral: true});
             });
 
         } catch (err) {
-            await message.channel.send({content: "An error has occurred. Please try again. If the error still occurs, do not hesitate to contact us.", ephemeral: true});
+            await interaction.channel.send({content: "An error has occurred. Please try again. If the error still occurs, do not hesitate to contact us.", ephemeral: true});
 
-            console.log("Ein Error ist bei #rank aufgetreten:\n");
+            console.log("Ein Error ist bei /rank aufgetreten:\n");
             console.error(err);
             console.log("\n\n---------------------------------------\n\n");
         }

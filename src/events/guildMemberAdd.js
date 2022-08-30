@@ -194,7 +194,9 @@ module.exports = {
             });
 
         } catch(err) {
+            console.log("Ein Error ist bei guildmemberAdd aufgetreten:\n");
             console.error(err);
+            console.log("\n\n---------------------------------------\n\n");
             await client.events.get("guildMemberAdd").execute(client, member, true, guild);
         }
     }

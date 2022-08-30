@@ -67,7 +67,9 @@ module.exports = {
             console.log(`Drippy ist einem Server beigetreten`)
 
         } catch (err) {
+            console.log("Ein Error ist bei guildCreate aufgetreten:\n");
             console.error(err);
+            console.log("\n\n---------------------------------------\n\n");
             await client.events.get("guildCreate").execute(client, guild, true);
         }
     }

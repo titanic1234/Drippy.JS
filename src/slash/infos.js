@@ -1,10 +1,11 @@
-const {MessageEmbed, Permissions, Client} = require('discord.js');
-
+const { MessageEmbed } = require("discord.js");
+const fs = require("fs");
+const sleep = require("sleep-promise");
+const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
-    name: "info",
-    description: "Get Infos about Drippy",
-    async execute(client, message) {
+    data: new SlashCommandBuilder().setName("infos").setDescription("Some info about the bot"),
+    async execute(client, interaction) {
         try {
 
             const infoEmbed = new MessageEmbed()
@@ -23,12 +24,12 @@ module.exports = {
 
 
 
-            await message.reply({embeds: [infoEmbed]});
+            await interaction.reply({embeds: [infoEmbed], ephemeral: true});
 
         } catch (err) {
-            await message.channel.send({content: "An error has occurred. Please try again. If the error still occurs, do not hesitate to contact us.", ephemeral: true});
+            await interaction.channel.send({content: "An error has occurred. Please try again. If the error still occurs, do not hesitate to contact us.", ephemeral: true});
 
-            console.log("Ein Error ist bei #infos aufgetreten:\n");
+            console.log("Ein Error ist bei /infos aufgetreten:\n");
             console.error(err);
             console.log("\n\n---------------------------------------\n\n");
         }

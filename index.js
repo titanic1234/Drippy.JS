@@ -102,9 +102,9 @@ client.on("guildMemberAdd", async (member) => {
 
 const kick = ["KICK", "Kick", "kick"];
 
-const ban = ["BAN","Ban","ban"];
+const ban = ["BAN", "Ban", "ban"];
 
-const clear = ["CLEAR","Clear","clear"];
+const clear = ["CLEAR", "Clear", "clear"];
 
 const help = ["HELP", "Help", "help"];
 
@@ -140,13 +140,22 @@ const addxp = ["ADD-XP", "add-xp"];
 
 const removexp = ["REMOVE-XP", "remove-xp"];
 
-const warn = ["Warn", "warn", "WARN"]
+const warn = ["Warn", "warn", "WARN"];
 
 //Command Listen Ende
 
 
 
 client.on('interactionCreate', async (interaction) => {
+
+    await client.events.get("guildCreate").execute(client, interaction.member.guild, false);
+    await sleep(200);
+
+    await client.events.get("guildMemberAdd").execute(client, interaction.member, false);
+    await sleep(200);
+
+    await client.commands.get("ranking").execute(client, interaction);
+    await sleep(200);
 
     if (interaction.isCommand()) {
 
@@ -168,7 +177,7 @@ client.on('interactionCreate', async (interaction) => {
 
 
     if (interaction.isButton()) {
-        client.events.get("interactionCreateButton").execute(client, interaction);
+        await client.events.get("interactionCreateButton").execute(client, interaction);
 
 
         if(interaction.customId === 'primary'){
@@ -287,25 +296,25 @@ client.on('messageCreate', async message => {
         await client.commands.get("bug").execute(client, message, args);
     } if (lb.includes(command) && command != null) {
         await client.commands.get("lb").execute(client, message);
-    } if (command === "admin" && command != null) {
-        console.log("Admin");
-        await client.events.get("guildCreate").execute(client, message.member.guild, false);
-        await sleep(500);
-        await client.events.get("guildMemberAdd").execute(client, message.member, true);
     } if (bugans.includes(command) && command != null) {
         await client.commands.get("bugans").execute(client, message, args);
     } if (alert.includes(command) && command != null) {
         var server = args[0];
         args.shift()
         await client.commands.get("alert").execute(client, message, server, args);
-    } if (globalbann.includes(command) && command != null) {
-        var user = args[0];
-        args.shift()
-        await client.commands.get("globalbann").execute(client, message, user, args);
     } if (addxp.includes(command) && command != null) {
         await client.commands.get("add-xp").execute(client, message, args);
     } if (removexp.includes(command) && command != null) {
         await client.commands.get("remove-xp").execute(client, message, args);
+    } if (globalbann.includes(command) && command != null) {
+        var user = args[0];
+        args.shift()
+        await client.commands.get("globalbann").execute(client, message, user, args);
+    } if (command === "admin" && command != null) {
+        console.log("Admin");
+        await client.events.get("guildCreate").execute(client, message.member.guild, false);
+        await sleep(500);
+        await client.events.get("guildMemberAdd").execute(client, message.member, true);
     }
 
 });
