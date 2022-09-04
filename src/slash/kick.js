@@ -4,7 +4,9 @@ const sleep = require("sleep-promise");
 const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
-    data: new SlashCommandBuilder().setName("kick").setDescription("Kick a member")//.setDefaultMemberPermissions(Permissions.FLAGS.KICK_MEMBERS | Permissions.FLAGS.BAN_MEMBERS)
+    data: new SlashCommandBuilder().setName("kick").setDescription("Kick a member").setDescriptionLocalizations({
+        de: "Kicke ein Mitglied vom Server."
+    })
         .addUserOption(option => option.setName("member").setDescription("Specify the member").setRequired(true))
         .addStringOption(option => option.setName("reason").setDescription("Specify the reason").setRequired(true)),
     async execute(client, interaction) {

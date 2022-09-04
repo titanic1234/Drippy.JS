@@ -4,7 +4,9 @@ const sleep = require("sleep-promise");
 const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
-    data: new SlashCommandBuilder().setName("rank").setDescription("See leveling info")//.setDefaultMemberPermissions(Permissions.FLAGS.KICK_MEMBERS | Permissions.FLAGS.BAN_MEMBERS)
+    data: new SlashCommandBuilder().setName("rank").setDescription("See leveling info").setDescriptionLocalizations({
+        de: "Schau dir dir die Leveling Informationen von einem Mitglied an"
+    })
         .addUserOption(option => option.setName("member").setDescription("Specify the member")),
     async execute(client, interaction) {
         try {

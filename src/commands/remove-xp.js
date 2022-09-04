@@ -141,12 +141,12 @@ module.exports = {
                 const embed = new MessageEmbed()
                     .setTimestamp()
                     .setTitle("Remove XP")
-                    .setDescription(`You have removed ${xp} XP from the user <@${message.member.id.toString()}>`)
+                    .setDescription(`You have removed ${xp} XP from the user <@${member.id.toString()}>`)
                     .setColor("#c24e4e")
 
                 await message.reply({embeds: [embed]});
 
-                await client.commands.get("rank").execute(client, message, message.member.id.toString());
+                await client.commands.get("rank").execute(client, message, member.id.toString());
             });
 
         } catch (err) {

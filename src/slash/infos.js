@@ -4,7 +4,9 @@ const sleep = require("sleep-promise");
 const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
-    data: new SlashCommandBuilder().setName("infos").setDescription("Some info about the bot"),
+    data: new SlashCommandBuilder().setName("infos").setDescription("Some info about the bot").setDescriptionLocalizations({
+        de: "Einige Informationen über dem Bot"
+    }),
     async execute(client, interaction) {
         try {
 

@@ -10,17 +10,16 @@ module.exports = {
 
 
             //Überprüft Member
-            if (member === []) {
-                member = message.author;
+            if (member === undefined) {
+                member = message.user;
             } else {
                 try {
                     //Versucht die User ID zu bekommen und zu User umzuwandeln
-                    member[0] = member[0].split("<@").join("").split(">").join("");
-                    member = client.users.cache.find(user => user.id === member[0]);
+                    member = member.split("<@").join("").split(">").join("");
+                    member = client.users.cache.find(user => user.id === member);
                     if (member === undefined) {
                         member = message.author;
                     }
-                    var test = member.id;
                 }
 
                 catch(error) {
@@ -70,7 +69,7 @@ module.exports = {
                         {name: "Your current rank: ", value: `${rank}`}
                     )
 
-                await message.reply({embeds: [levelEmbed]});
+                await message.channel.send({embeds: [levelEmbed]});
             });
 
         } catch (err) {
